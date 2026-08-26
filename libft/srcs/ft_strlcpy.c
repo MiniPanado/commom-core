@@ -3,7 +3,9 @@
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	src_len;
+	size_t	i;
 
+	i = 0;
 	src_len = 0;
 	while (*(src + src_len))
 	{
@@ -13,10 +15,11 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	{
 		return (src_len);
 	}
-	*(dst + --size) = '\0';
-	while (size--)
+	while (i < (size - 1) && *(src + i))
 	{
-		*(dst + size) = *(src + size);
+		*(dst + i) = *(src + i);
+		i++;
 	}
+	*(dst + i) = '\0';
 	return (src_len);
 }
