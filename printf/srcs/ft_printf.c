@@ -4,19 +4,33 @@ int	ft_printf(const char *format, ...)
 {
 	va_list	args;
 	int		count;
+	int		ret;
 
 	if (!format)
+	{
 		return (-1);
+	}
 	va_start(args, format);
 	count = 0;
-	/*
-	** TODO:
-	** - percorrer `format` caractere a caractere
-	** - caractere normal -> escreve-lo e somar 1 a `count`
-	** - ao encontrar '%' -> avancar para o proximo caractere e chamar
-	**   ft_handle_conversion(conv, &args); somar o retorno a `count`
-	**   (e tratar o caso de retorno -1 == erro)
-	*/
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			format++;
+			ret = ft_handle_conversion(*format, &args);
+			if (ret < 0)
+			{
+				va_end(args);
+				return (-1);
+			}
+			count += ret;
+		}
+		else
+		{
+			count += ft_putchar_count(*format);
+		}
+		format++;
+	}
 	va_end(args);
 	return (count);
 }

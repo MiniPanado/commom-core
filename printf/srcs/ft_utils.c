@@ -1,27 +1,32 @@
 #include "ft_printf.h"
 
-int	ft_putchar_count(char c)
+int	ft_putchar_count(const char c)
 {
 	return (write(1, &c, 1));
 }
 
-int	ft_putstr_count(char *s)
+int	ft_putstr_count(const char *s)
 {
-	/*
-	** TODO: escrever `s` no fd 1 e devolver o numero de bytes escritos
-	*/
-	(void)s;
-	return (0);
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (write(1, s, i));
 }
 
 int	ft_putnbr_base_count(unsigned long n, const char *base)
 {
-	/*
-	** TODO: conversao (recursiva ou iterativa) de `n` para a base dada.
-	** o comprimento de `base` e a propria base numerica
-	** (ex: "0123456789abcdef" tem 16 caracteres -> base 16)
-	*/
-	(void)n;
-	(void)base;
-	return (0);
+	int				total;
+	unsigned long	base_len;
+
+	total = 0;
+	base_len = 0;
+	while (base[base_len])
+		base_len++;
+	if (n >= base_len)
+	{
+		total = ft_putnbr_base_count((n / base_len), base);
+	}
+	return (total + ft_putchar_count(base[n % base_len]));
 }

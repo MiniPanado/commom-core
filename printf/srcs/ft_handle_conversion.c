@@ -2,12 +2,19 @@
 
 int	ft_handle_conversion(char conv, va_list *args)
 {
-	/*
-	** TODO: despachar conforme `conv` para a funcao ft_print_xxx certa
-	** (c, s, p, d, i, u, x, X, %) e devolver o que ela devolver.
-	** Decide o que fazer com qualquer outro caractere.
-	*/
-	(void)conv;
-	(void)args;
-	return (0);
+	if (conv == 'c')
+		return (ft_print_char(args));
+	if (conv == 's')
+		return (ft_print_string(args));
+	if (conv == 'p')
+		return (ft_print_pointer(args));
+	if (conv == 'd' || conv == 'i')
+		return (ft_print_int(args));
+	if (conv == 'u')
+		return (ft_print_uint(args));
+	if (conv == 'x' || conv == 'X')
+		return (ft_print_hex(args, (conv == 'X')));
+	if (conv == '%')
+		return (ft_print_percent());
+	return (-2);
 }

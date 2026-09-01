@@ -2,11 +2,16 @@
 
 int	ft_print_pointer(va_list *args)
 {
-	/*
-	** TODO: va_arg(*args, void *)
-	** escrever "0x" seguido do endereco em hexadecimal minusculo
-	** tratar o caso do ponteiro NULL -> "(nil)"
-	*/
-	(void)args;
-	return (0);
+	const void		*ptr;
+	unsigned long	num;
+	int				total;
+
+	ptr = va_arg(*args, void *);
+	if (!ptr)
+		return (ft_putstr_count("(nil)"));
+	num = (unsigned long)ptr;
+	total = 0;
+	total += ft_putstr_count("0x");
+	total += ft_putnbr_base_count(num, "0123456789abcdef");
+	return (total);
 }

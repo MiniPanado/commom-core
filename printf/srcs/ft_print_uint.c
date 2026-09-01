@@ -2,9 +2,7 @@
 
 int	ft_print_uint(va_list *args)
 {
-	/*
-	** TODO: va_arg(*args, unsigned int) para %u
-	*/
-	(void)args;
-	return (0);
+	const unsigned int	num = va_arg(*args, unsigned int);
+
+	return (ft_putnbr_base_count(num, "0123456789"));
 }

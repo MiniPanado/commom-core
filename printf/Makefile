@@ -24,10 +24,8 @@ SRCS		= ft_printf.c \
 			  ft_print_percent.c \
 			  ft_utils.c
 
-# Acrescenta aqui os ficheiros so-de-bonus quando desenhares o parsing
-# de flags/largura/precisao (ex: ft_parse_flags_bonus.c). Tem de ficar
-# em ficheiros *_bonus.c, conforme pedido no subject.
-BONUS_SRCS	=
+BONUS_SRCS	= ft_parse_flags_bonus.c \
+			  ft_apply_padding_bonus.c
 
 OBJS		= $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 BONUS_OBJS	= $(addprefix $(OBJS_DIR)/, $(BONUS_SRCS:.c=.o))
