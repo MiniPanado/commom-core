@@ -1,5 +1,18 @@
 #include "ft_printf.h"
 
+static int	ft_process_conversion(const char **format, va_list *args)
+{
+	(*format)++;
+	return (ft_handle_conversion(**format, args));
+}
+
+static int	ft_process_char(const char **format, va_list *args)
+{
+	if (**format == '%')
+		return (ft_process_conversion(format, args));
+	return (ft_putchar_count(**format));
+}
+
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
@@ -7,28 +20,18 @@ int	ft_printf(const char *format, ...)
 	int		ret;
 
 	if (!format)
-	{
 		return (-1);
-	}
 	va_start(args, format);
 	count = 0;
 	while (*format)
 	{
-		if (*format == '%')
+		ret = ft_process_char(&format, &args);
+		if (ret < 0)
 		{
-			format++;
-			ret = ft_handle_conversion(*format, &args);
-			if (ret < 0)
-			{
-				va_end(args);
-				return (-1);
-			}
-			count += ret;
+			va_end(args);
+			return (-1);
 		}
-		else
-		{
-			count += ft_putchar_count(*format);
-		}
+		count += ret;
 		format++;
 	}
 	va_end(args);
