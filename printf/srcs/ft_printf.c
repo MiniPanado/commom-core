@@ -1,10 +1,27 @@
 #include "ft_printf.h"
 
+#ifdef BONUS
+
+# include "ft_printf_bonus.h"
+
+static int	ft_process_conversion(const char **format, va_list *args)
+{
+	t_flags	flags;
+
+	(*format)++;
+	ft_parse_flags(format, &flags);
+	return (ft_handle_conversion_bonus(**format, args, &flags));
+}
+
+#else
+
 static int	ft_process_conversion(const char **format, va_list *args)
 {
 	(*format)++;
 	return (ft_handle_conversion(**format, args));
 }
+
+#endif
 
 static int	ft_process_char(const char **format, va_list *args)
 {

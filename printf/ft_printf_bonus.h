@@ -1,7 +1,3 @@
-/* ************************************************************************** */
-/*                                                  ft_printf_bonus.h         */
-/* ************************************************************************** */
-
 #ifndef FT_PRINTF_BONUS_H
 # define FT_PRINTF_BONUS_H
 
@@ -20,9 +16,25 @@ typedef struct s_flags
 }	t_flags;
 
 /* ---- Bonus: reads '-0.# +' and any width digits right after '%' ---- */
-int		ft_parse_flags(const char **format, t_flags *flags);
+int	ft_parse_flags(const char **format, t_flags *flags);
 
 /* ---- Bonus: pads/writes a conversion's already-built content ---- */
-int		ft_apply_padding(const char *content, t_flags *flags);
+int	ft_apply_padding(const char *content, t_flags *flags);
+
+int	ft_put_padding(int amount, char c);
+int	ft_putstr_count_n(const char *str, int n);
+int	ft_get_prefix_len(const char *content);
+
+/* ---- Bonus: dispatch, aware of flags ---- */
+int		ft_handle_conversion_bonus(char conv, va_list *args, t_flags *flags);
+
+/* ---- Bonus: conversions cspdiuxX%, aware of flags/width/precision ---- */
+int		ft_print_char_bonus(va_list *args, t_flags *flags);
+int		ft_print_string_bonus(va_list *args, t_flags *flags);
+int		ft_print_pointer_bonus(va_list *args, t_flags *flags);
+int		ft_print_int_bonus(va_list *args, t_flags *flags);
+int		ft_print_uint_bonus(va_list *args, t_flags *flags);
+int		ft_print_hex_bonus(va_list *args, t_flags *flags, int is_upper);
+int		ft_print_percent_bonus(t_flags *flags);
 
 #endif
