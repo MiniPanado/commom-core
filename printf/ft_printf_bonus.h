@@ -2,6 +2,7 @@
 # define FT_PRINTF_BONUS_H
 
 # include "ft_printf.h"
+# include "limits.h"
 
 typedef struct s_flags
 {

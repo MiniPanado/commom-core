@@ -51,6 +51,24 @@ static int	ft_pad_simple(const char *content, int padding, char fill)
 	return (count + ret);
 }
 
+int	ft_apply_padding(const char *content, t_flags *flags, char fill)
+{
+	int	len;
+	int	width;
+
+	len = ft_strlen(content);
+	if (len >= flags->width)
+	{
+		return (ft_putstr_count(content));
+	}
+	width = flags->width - len;
+	if (flags->minus)
+	{
+		return (ft_pad_left_justify(content, width));
+	}
+	return (ft_pad_simple(content, width, fill));
+}
+
 int	ft_apply_padding(const char *content, t_flags *flags)
 {
 	int	len;
@@ -66,5 +84,7 @@ int	ft_apply_padding(const char *content, t_flags *flags)
 		return (ft_pad_left_justify(content, padding));
 	if (flags->zero && ft_get_prefix_len(content) > 0)
 		return (ft_pad_zero_prefixed(content, padding));
-	return (ft_pad_simple(content, padding, flags->zero ? '0' : ' '));
+	if (flags->zero)
+		return (ft_pad_simple(content, padding, '0'));
+	return (ft_pad_simple(content, padding, ' '));
 }

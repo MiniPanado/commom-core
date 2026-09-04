@@ -1,5 +1,3 @@
-#include "ft_printf.h"
-
 #ifdef BONUS
 
 # include "ft_printf_bonus.h"
@@ -14,6 +12,8 @@ static int	ft_process_conversion(const char **format, va_list *args)
 }
 
 #else
+
+# include "ft_printf.h"
 
 static int	ft_process_conversion(const char **format, va_list *args)
 {
