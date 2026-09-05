@@ -7,5 +7,5 @@ int	ft_print_char_bonus(va_list *args, t_flags *flags)
 
 	buffer[0] = (char)c;
 	buffer[1] = '\0';
-	return (ft_apply_padding(buffer, flags));
+	return (ft_apply_padding(buffer, flags, ' '));
 }

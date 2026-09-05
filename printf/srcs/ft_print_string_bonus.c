@@ -9,30 +9,29 @@ static const char	*ft_null_replacement(t_flags *flags)
 	return ("(null)");
 }
 
-static int	ft_build_truncated(const char *str, int len, t_flags *flags)
+static int	ft_build_truncated(const char *str, t_flags *flags)
 {
 	char	*buffer;
 	int		i;
 	int		ret;
 
-	if (!flags->has_precision || flags->precision >= len)
+	if (!flags->has_precision || flags->precision >= ft_strlen(str))
 	{
-		return (ft_apply_padding(str, flags));
+		return (ft_apply_padding(str, flags, ' '));
 	}
-	len = flags->precision;
-	buffer = (char *)malloc(sizeof(char) * (len + 1));
+	buffer = (char *)malloc(sizeof(char) * (flags->precision + 1));
 	if (!buffer)
 	{
 		return (-1);
 	}
 	i = 0;
-	while (i < len)
+	while (i < flags->precision)
 	{
 		buffer[i] = str[i];
 		i++;
 	}
 	buffer[i] = '\0';
-	ret = ft_apply_padding(buffer, flags);
+	ret = ft_apply_padding(buffer, flags, ' ');
 	free(buffer);
 	return (ret);
 }
@@ -42,14 +41,10 @@ int	ft_print_string_bonus(va_list *args, t_flags *flags)
 	const char	*str;
 	int			len;
 
-	flags->zero = 0;
 	str = va_arg(*args, char *);
 	if (!str)
 	{
 		str = ft_null_replacement(flags);
 	}
-	len = 0;
-	while (str[len])
-		len++;
-	return (ft_build_truncated(str, len, flags));
+	return (ft_build_truncated(str, flags));
 }

@@ -2,8 +2,7 @@
 
 static void	ft_parse_flag_chars(const char **format, t_flags *flags)
 {
-	while (**format == '-' || **format == '0' || **format == '#'
-			|| **format == '+' || **format == ' ')
+	while (1)
 	{
 		if (**format == '-')
 			flags->minus = 1;
@@ -15,6 +14,8 @@ static void	ft_parse_flag_chars(const char **format, t_flags *flags)
 			flags->plus = 1;
 		else if (**format == ' ')
 			flags->space = 1;
+		else
+			break ;
 		(*format)++;
 	}
 }
