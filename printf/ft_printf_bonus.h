@@ -4,6 +4,7 @@
 # include "ft_printf.h"
 # include <stdint.h>
 # include <limits.h>
+# include <stdbool.h>
 
 typedef struct s_flags
 {
@@ -16,6 +17,14 @@ typedef struct s_flags
 	int		precision;		/* value found after '.'                          */
 	int		has_precision;	/* whether a '.' was present at all               */
 }	t_flags;
+
+typedef struct s_conv
+{
+	char		*body;
+	char		sign;
+	const char	*prefix;
+	int			numeric;
+}	t_conv;
 
 /* ---- Bonus: reads '-0.# +' and any width digits right after '%' ---- */
 int	ft_parse_flags(const char **format, t_flags *flags);
