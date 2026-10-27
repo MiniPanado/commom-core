@@ -5,6 +5,7 @@ int	ft_finalize_conv_bonus(t_conv *conv, t_flags *flags, char converter)
 	char	*result;
 	int		written;
 
+	ft_apply_precision_bonus(conv, flags, converter);
 	result = ft_assemble_bonus(conv, flags, converter);
 	free(conv->body);
 	if (!result)
