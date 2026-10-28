@@ -6,11 +6,13 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 01:29:10 by lucerque          #+#    #+#             */
-/*   Updated: 2026/10/27 18:57:30 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/10/28 16:11:40 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isprint(int c)
+#include "libft.h"
+
+int	ft_isascii(int c)
 {
 	return (c >= 0 && c <= 127);
 }
