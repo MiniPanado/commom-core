@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:19:25 by lucerque          #+#    #+#             */
-/*   Updated: 2026/10/29 18:11:42 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/10/29 19:42:47 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,15 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	}
 	dst[d_size + i] = '\0';
 	return (d_size + ft_strlen(src));
+}
+
+#include <stdio.h>
+
+int	main(void)
+{
+	char a[10] = "aaaaaa";
+	char b[10] = "bbbb";
+
+	printf("%zu\n", ft_strlcat(a, b, 7));
+	printf("%s\n", a);
 }
