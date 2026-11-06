@@ -156,6 +156,7 @@ Some behaviors required by the subject that are worth knowing when using the lib
 
 - **Character classification** (`ft_isalpha`, `ft_isdigit`, `ft_isalnum`, `ft_isascii`, `ft_isprint`) returns `1` if the character matches and `0` otherwise.
 - **`ft_calloc`:** if `nmemb` or `size` is `0`, it returns a unique pointer that can be safely passed to `free()`.
+- **Why `malloc(1)` instead of `malloc(0)`:** the C and POSIX standards allow `malloc(0)` to return either `NULL` or a unique pointer, so its behavior changes between systems. To always get a valid and unique pointer in the zero-size case, I allocate `1` byte instead of `0` (see the article in **Resources**).
 - **`ft_split`:** returns `NULL` if any allocation fails, and the returned array is `NULL`-terminated.
 - **`ft_lstdelone`:** frees the content and the node itself, but not the next node.
 - **`ft_lstclear`:** frees the given node and all its successors, then sets the list pointer to `NULL`.
@@ -180,6 +181,7 @@ I tested the functions by writing a small `main` for each exercise, comparing th
 - [The Ultimate Guide to Structs in C](https://medium.com/@adithyaravichandran11/the-ultimate-guide-to-structs-in-c-from-beginner-to-pro-b62157d21c73) — to understand structs, which helped me start the linked list part.
 - [cppreference — atoi](https://en.cppreference.com/c/string/byte/atoi) — to research which `atoi` cases are undefined behavior and which are not.
 - [Abdul Bari](https://www.youtube.com/@abdul_bari) (YouTube) — video explanations of programming and data structure concepts.
+- [The malloc(0) Mystery: Why Zero-Byte Memory Allocation Behavior Varies Across Systems](https://finance.biggo.com/news/202506270123_malloc-0-memory-allocation-behavior) (BigGo Finance) — explains why `malloc(0)` behaves differently across systems and why `malloc(1)` is a common workaround; this is where I decided to use `malloc(1)` instead of `malloc(0)`.
 - Peer learning with other 42 students — discussing approaches and edge cases.
 - Python Tutor — to visualize step by step how code runs.
 
