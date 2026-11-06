@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 22:43:49 by lucerque          #+#    #+#             */
-/*   Updated: 2026/10/30 22:55:14 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/06 07:56:27 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 		return ((char *)big);
 	}
 	i = 0;
-	while (big[i] != '\0' && i < len)
+	while (i < len && big[i] != '\0')
 	{
 		j = 0;
 		while (i + j < len && big[i + j] == little[j] && big[i + j])
