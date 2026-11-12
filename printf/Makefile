@@ -73,6 +73,8 @@ MAGENTA			= \033[35m
 
 all: mandatory
 
+$(NAME): all
+
 mandatory: $(MANDATORY_OBJS)
 	@$(RM) $(NAME)
 	@$(AR) $(NAME) $(MANDATORY_OBJS)
