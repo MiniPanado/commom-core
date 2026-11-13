@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 18:48:34 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/13 20:25:37 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/13 20:44:59 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,30 @@ static const t_conversion	g_table[] = {
 {0, NULL}
 };
 
-int	ft_printf(const char *, ...)
+static int	conversion(va_list *ap)
+{
+
+}
+
+int	ft_printf(const char *format, ...)
 {
 	va_list	ap;
-
+	
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			format++;
+			if (conversion(&ap))
+			{
+				return (-1);
+			}
+			format++;
+		}
+		else
+			ft_putchar_fd(*format, STDOUT_FILENO);
+		format++;
+	}
 	va_end(ap);
 	return (0);
 }
