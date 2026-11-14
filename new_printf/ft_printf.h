@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/13 20:11:15 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/13 20:39:51 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/14 05:05:54 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 typedef struct s_conversion
 {
 	char	type;
-	void	(*func)(char);
+	void	(*func)(va_list *ap);
 }	t_conversion;
 
 #endif
