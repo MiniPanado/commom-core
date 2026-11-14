@@ -6,21 +6,21 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 18:48:34 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/14 05:08:32 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/14 05:36:03 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
 static const t_conversion	g_table[] = {
-{'c', print_c},
-{'s', print_s},
-{'p', print_p},
-{'d', print_d},
-{'i', print_i},
-{'u', print_u},
-{'x', print_x},
-{'X', print_big_x},
+{'c', print_char},
+{'s', print_string},
+{'p', print_pointer},
+{'d', print_int},
+{'i', print_int},
+{'u', print_unsigned},
+{'x', print_hexdecimal},
+{'X', print_big_hexdecimal},
 {'%', print_percent},
 {0, NULL}
 };
