@@ -39,6 +39,8 @@ MAGENTA                 = \033[35m
 MANDATORY_FILES :=
 MANDATORY_FILES += ft_printf.c
 MANDATORY_FILES += ft_print_text.c
+MANDATORY_FILES += ft_print_num.c
+MANDATORY_FILES += ft_utils.c
 
 BONUS_FILES :=
 BONUS_FILES += ft_printf_bonus.c
