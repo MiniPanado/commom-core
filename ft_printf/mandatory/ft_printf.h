@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/13 20:11:15 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/17 17:53:28 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/18 10:19:49 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@
 
 # include "libft.h"
 # include <stdarg.h>
-
-# ifndef STDOUT_FILENO
-#  define STDOUT_FILENO 
-# endif
 
 # define PF_NULL_STR	"(null)"
 # define PF_NULL_PTR	"(nil)"

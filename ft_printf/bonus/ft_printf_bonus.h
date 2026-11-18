@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/13 20:11:15 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/17 19:13:03 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/18 10:33:16 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,8 @@
 
 # define FT_PRINTF_BONUS_H
 
-# include "ft_printf_bonus.h"
+# include "libft.h"
 # include <stdarg.h>
-
-# ifndef STDOUT_FILENO
-#  define STDOUT_FILENO 
-# endif
 
 # define PF_NULL_STR	"(null)"
 # define PF_NULL_PTR	"(nil)"
@@ -28,11 +24,7 @@
 # define BASE_HEX_LOWER	"0123456789abcdef"
 # define BASE_HEX_UPPER	"0123456789ABCDEF"
 
-typedef struct s_conversion
-{
-	char	type;
-	int		(*func)(va_list *args, t_flag *flags);
-}	t_conversion;
+# define FLAG_CHARS	"-0# +"
 
 typedef struct s_flag
 {
@@ -44,6 +36,12 @@ typedef struct s_flag
 	int	width;
 	int	precision;
 }	t_flag;
+
+typedef struct s_conversion
+{
+	char	type;
+	int		(*func)(va_list *args, t_flag *flags);
+}	t_conversion;
 
 /* ---- API required by the subject ---- */
 int		ft_printf(const char *format, ...);
