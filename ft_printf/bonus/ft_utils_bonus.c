@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_utils.c                                         :+:      :+:    :+:   */
+/*   ft_utils_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/17 13:27:58 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/17 17:12:58 by lucerque         ###   ########.fr       */
+/*   Created: 2026/11/18 16:00:00 by lucerque          #+#    #+#             */
+/*   Updated: 2026/11/18 16:00:00 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-ssize_t	ft_put_ulong_base(uintmax_t nbr, const char *base)
+int	ft_put_unsigned_base(uintmax_t nbr, const char *base)
 {
 	size_t	base_len;
-	ssize_t	head_count;
-	ssize_t	tail_count;
+	int		head_count;
+	int		tail_count;
 
 	base_len = ft_strlen(base);
 	if (base_len < 2)
@@ -24,7 +24,7 @@ ssize_t	ft_put_ulong_base(uintmax_t nbr, const char *base)
 	head_count = 0;
 	if (nbr >= base_len)
 	{
-		head_count = ft_put_ulong_base(nbr / base_len, base);
+		head_count = ft_put_unsigned_base(nbr / base_len, base);
 		if (head_count < 0)
 			return (-1);
 	}
@@ -34,23 +34,45 @@ ssize_t	ft_put_ulong_base(uintmax_t nbr, const char *base)
 	return (head_count + tail_count);
 }
 
-ssize_t	ft_put_int(int nbr)
+int	ft_count_digits(uintmax_t nbr, size_t base_len)
 {
-	ssize_t			sign_count;
-	ssize_t			digits_count;
-	unsigned long	magnitude;
+	int	count;
 
-	sign_count = 0;
-	magnitude = nbr;
-	if (nbr < 0)
+	count = 1;
+	while (nbr >= base_len)
 	{
-		sign_count = write(STDOUT_FILENO, "-", 1);
-		if (sign_count < 0)
-			return (-1);
-		magnitude = -(long long)nbr;
+		nbr /= base_len;
+		count++;
 	}
-	digits_count = ft_put_ulong_base(magnitude, BASE_DEC);
-	if (digits_count < 0)
-		return (-1);
-	return (sign_count + digits_count);
+	return (count);
+}
+
+int	ft_put_padding(int count, char fill)
+{
+	int	printed;
+
+	printed = 0;
+	while (printed < count)
+	{
+		if (write(STDOUT_FILENO, &fill, 1) != 1)
+			return (-1);
+		printed++;
+	}
+	return (printed);
+}
+
+int	ft_parse_number(const char **format, int *value)
+{
+	int	digit;
+
+	*value = 0;
+	while (ft_isdigit(**format))
+	{
+		digit = **format - '0';
+		if (*value > (INT_MAX - digit) / 10)
+			return (-1);
+		*value = *value * 10 + digit;
+		(*format)++;
+	}
+	return (0);
 }

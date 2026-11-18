@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/13 20:11:15 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/18 10:33:16 by lucerque         ###   ########.fr       */
+/*   Created: 2026/11/18 16:00:00 by lucerque          #+#    #+#             */
+/*   Updated: 2026/11/18 16:00:00 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # define BASE_DEC		"0123456789"
 # define BASE_HEX_LOWER	"0123456789abcdef"
 # define BASE_HEX_UPPER	"0123456789ABCDEF"
-
-# define FLAG_CHARS	"-0# +"
 
 typedef struct s_flag
 {
@@ -44,21 +42,35 @@ typedef struct s_conversion
 }	t_conversion;
 
 /* ---- API required by the subject ---- */
-int		ft_printf(const char *format, ...);
+int			ft_printf(const char *format, ...);
 
-/* ---- Mandatory conversions: c s p d i u x X % ---- */
-int		ft_print_char(va_list *args);
-int		ft_print_string(va_list *args);
-int		ft_print_percent(va_list *args);
+/* ---- Conversions: c s p d i u x X % ---- */
+int			ft_print_char(va_list *args, t_flag *flags);
+int			ft_print_string(va_list *args, t_flag *flags);
+int			ft_print_percent(va_list *args, t_flag *flags);
 
-int		ft_print_int(va_list *args);
-int		ft_print_uint(va_list *args);
-int		ft_print_hex_lower(va_list *args);
-int		ft_print_hex_upper(va_list *args);
-int		ft_print_pointer(va_list *args);
+int			ft_print_int(va_list *args, t_flag *flags);
+int			ft_print_uint(va_list *args, t_flag *flags);
+int			ft_print_hex_lower(va_list *args, t_flag *flags);
+int			ft_print_hex_upper(va_list *args, t_flag *flags);
+int			ft_print_pointer(va_list *args, t_flag *flags);
 
-/* --- Utils --- */
-ssize_t	ft_put_int(int nbr);
-ssize_t	ft_put_ulong_base(uintmax_t nbr, const char *base);
+/* --- Output --- */
+int			ft_put_padding(int count, char fill);
+int			ft_put_field(const char *str, int len, t_flag *flags);
+int			ft_put_unsigned_base(uintmax_t nbr, const char *base);
+int			ft_put_number(uintmax_t value, const char *base,
+				const char *prefix, t_flag *flags);
+
+/* --- Number helpers --- */
+int			ft_count_digits(uintmax_t nbr, size_t base_len);
+const char	*ft_sign_prefix(int nbr, t_flag *flags);
+const char	*ft_hex_prefix(unsigned int nbr, const char *prefix,
+				t_flag *flags);
+const char	*ft_pointer_prefix(t_flag *flags);
+
+/* --- Parse --- */
+int			ft_parse_flags(const char **format, t_flag *flags);
+int			ft_parse_number(const char **format, int *value);
 
 #endif

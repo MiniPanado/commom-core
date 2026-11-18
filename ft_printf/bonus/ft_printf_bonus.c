@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/12 18:48:34 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/18 10:56:35 by lucerque         ###   ########.fr       */
+/*   Created: 2026/11/18 16:00:00 by lucerque          #+#    #+#             */
+/*   Updated: 2026/11/18 16:00:00 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,78 +25,55 @@ static const t_conversion	g_conversions[] = {
 {0, NULL}
 };
 
-static void	set_flag(char c, t_flag *flags)
+static const t_conversion	*ft_find_conversion(char type)
 {
-	if (c == '-')
-		flags->minus = 1;
-	else if (c == '0')
-		flags->zero = 1;
-	else if (c == '#')
-		flags->hash = 1;
-	else if (c == '+')
-		flags->plus = 1;
-	else if (c == ' ')
-		flags->space = 1;
-}
-
-static int	parse_number(const char **format, int *nbr)
-{
-	*nbr = 0;
-	while (ft_isdigit(**format))
-	{
-		if (*nbr > (INT_MAX - (**format - '0')) / 10)
-			return (-1);
-		*nbr = *nbr * 10 + (**format - '0');
-		(*format)++;
-	}
-	return (0);
-}
-
-static int	parse_flags(const char **format, t_flag *flags)
-{
-	ft_memset(flags, 0, sizeof(t_flag));
-	flags->precision = -1;
-	while (**format && ft_strchr(FLAG_CHARS, **format))
-	{
-		set_flag(**format, flags);
-		(*format)++;
-	}
-	if (parse_number(format, &flags->width) < 0)
-		return (-1);
-	if (**format == '.')
-	{
-		(*format)++;
-		if (parse_number(format, &flags->precision) < 0)
-			return (-1);
-	}
-	if (flags->minus)
-		flags->zero = 0;
-	if (flags->plus)
-		flags->space = 0;
-	return (0);
-}
-
-static int	conversion(va_list *args, const char **format)
-{
-	t_flag	flags;
 	size_t	i;
 
-	(*format)++;
-	if (parse_flags(format, &flags) < 0)
-		return (-1);
 	i = 0;
-	while (g_conversions[i].type && g_conversions[i].type != **format)
+	while (g_conversions[i].type)
+	{
+		if (g_conversions[i].type == type)
+			return (&g_conversions[i]);
 		i++;
-	if (!g_conversions[i].func)
+	}
+	return (NULL);
+}
+
+static int	ft_handle_conversion(va_list *args, const char **format)
+{
+	t_flag				flags;
+	const t_conversion	*conversion;
+	int					printed;
+
+	(*format)++;
+	if (ft_parse_flags(format, &flags) < 0)
 		return (-1);
-	return (g_conversions[i].func(args, &flags));
+	conversion = ft_find_conversion(**format);
+	if (!conversion)
+		return (-1);
+	printed = conversion->func(args, &flags);
+	(*format)++;
+	return (printed);
+}
+
+static int	ft_put_literal(const char **format)
+{
+	size_t	len;
+
+	len = 0;
+	while ((*format)[len] && (*format)[len] != '%')
+		len++;
+	if (write(STDOUT_FILENO, *format, len) != (ssize_t)len)
+		return (-1);
+	*format += len;
+	return ((int)len);
 }
 
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
 	int		total;
-	int		ret;
+	int		printed;
 
 	if (!format)
 		return (-1);
@@ -105,16 +82,15 @@ int	ft_printf(const char *format, ...)
 	while (*format)
 	{
 		if (*format == '%')
-			ret = conversion(&args, &format);
+			printed = ft_handle_conversion(&args, &format);
 		else
-			ret = write(STDOUT_FILENO, format, 1);
-		if (ret < 0)
+			printed = ft_put_literal(&format);
+		if (printed < 0)
 		{
 			va_end(args);
 			return (-1);
 		}
-		total += ret;
-		format++;
+		total += printed;
 	}
 	va_end(args);
 	return (total);
