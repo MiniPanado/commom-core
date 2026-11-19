@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 14:51:01 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/19 20:18:33 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/19 21:41:49 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ int	ft_print_string_bonus(va_list *args, t_flag *flags)
 	size_t		len;
 
 	str = va_arg(*args, const char *);
-	if (!str)
+	if (!str && flags->precision < 6)
+		str = "";
+	else if (!str)
 		str = PF_NULL_STR;
 	len = ft_strlen(str);
 	if (flags->precision >= 0 && (size_t)flags->precision < len)
