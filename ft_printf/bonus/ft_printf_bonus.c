@@ -5,75 +5,44 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/18 16:00:00 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/18 16:00:00 by lucerque         ###   ########.fr       */
+/*   Created: 2026/11/12 18:48:34 by lucerque          #+#    #+#             */
+/*   Updated: 2026/11/19 15:19:57 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-static const t_conversion	g_conversions[] = {
-{'c', ft_print_char},
-{'s', ft_print_string},
-{'p', ft_print_pointer},
-{'d', ft_print_int},
-{'i', ft_print_int},
-{'u', ft_print_uint},
-{'x', ft_print_hex_lower},
-{'X', ft_print_hex_upper},
-{'%', ft_print_percent},
-{0, NULL}
-};
-
-static const t_conversion	*ft_find_conversion(char type)
+static int	conversion(va_list *args, const char **format)
 {
-	size_t	i;
-
-	i = 0;
-	while (g_conversions[i].type)
-	{
-		if (g_conversions[i].type == type)
-			return (&g_conversions[i]);
-		i++;
-	}
-	return (NULL);
-}
-
-static int	ft_handle_conversion(va_list *args, const char **format)
-{
-	t_flag				flags;
-	const t_conversion	*conversion;
-	int					printed;
+	t_flag	flags;
 
 	(*format)++;
-	if (ft_parse_flags(format, &flags) < 0)
+	if (parse_flags(format, &flags) < 0)
 		return (-1);
-	conversion = ft_find_conversion(**format);
-	if (!conversion)
-		return (-1);
-	printed = conversion->func(args, &flags);
-	(*format)++;
-	return (printed);
-}
-
-static int	ft_put_literal(const char **format)
-{
-	size_t	len;
-
-	len = 0;
-	while ((*format)[len] && (*format)[len] != '%')
-		len++;
-	if (write(STDOUT_FILENO, *format, len) != (ssize_t)len)
-		return (-1);
-	*format += len;
-	return ((int)len);
+	if (**format == 'c')
+		return (ft_print_char_bonus(args, &flags));
+	if (**format == 's')
+		return (ft_print_string_bonus(args, &flags));
+	if (**format == 'p')
+		return (ft_print_pointer_bonus(args, &flags));
+	if (**format == 'd' || **format == 'i')
+		return (ft_print_int_bonus(args, &flags));
+	if (**format == 'u')
+		return (ft_print_uint_bonus(args, &flags));
+	if (**format == 'x')
+		return (ft_print_hex_lower_bonus(args, &flags));
+	if (**format == 'X')
+		return (ft_print_hex_upper_bonus(args, &flags));
+	if (**format == '%')
+		return (ft_print_percent_bonus(args, &flags));
+	return (-1);
 }
 
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
 	int		total;
-	int		printed;
+	int		ret;
 
 	if (!format)
 		return (-1);
@@ -82,15 +51,16 @@ int	ft_printf(const char *format, ...)
 	while (*format)
 	{
 		if (*format == '%')
-			printed = ft_handle_conversion(&args, &format);
+			ret = conversion(&args, &format);
 		else
-			printed = ft_put_literal(&format);
-		if (printed < 0)
+			ret = write(STDOUT_FILENO, format, 1);
+		if (ret < 0)
 		{
 			va_end(args);
 			return (-1);
 		}
-		total += printed;
+		total += ret;
+		format++;
 	}
 	va_end(args);
 	return (total);

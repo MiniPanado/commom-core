@@ -5,76 +5,91 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/18 16:00:00 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/18 16:00:00 by lucerque         ###   ########.fr       */
+/*   Created: 2026/11/19 14:51:01 by lucerque          #+#    #+#             */
+/*   Updated: 2026/11/19 20:18:33 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
+#include <limits.h>
 
-int	ft_put_field(const char *str, int len, t_flag *flags)
+static int	ft_write_all(const char *buffer, size_t length)
 {
-	int	pad;
-	int	left;
-	int	body;
-	int	right;
+	size_t	offset;
+	ssize_t	bytes_written;
 
-	pad = flags->width - len;
-	if (pad < 0)
-		pad = 0;
-	left = 0;
-	right = 0;
-	if (!flags->minus)
-		left = ft_put_padding(pad, ' ');
-	if (left < 0)
+	offset = 0;
+	while (offset < length)
+	{
+		bytes_written = write(STDOUT_FILENO, buffer + offset, length - offset);
+		if (bytes_written <= 0)
+			return (-1);
+		offset += (size_t)bytes_written;
+	}
+	return (0);
+}
+
+static int	ft_apply_padding(char padding_char, int padding_size)
+{
+	int	chars_written;
+
+	chars_written = 0;
+	while (chars_written < padding_size)
+	{
+		if (ft_write_all(&padding_char, 1) < 0)
+			return (-1);
+		chars_written++;
+	}
+	return (chars_written);
+}
+
+static int	ft_print_padded(const char *content, size_t content_length,
+		t_flag *flags)
+{
+	int	padding_size;
+	int	total_chars;
+
+	if (content_length > INT_MAX)
 		return (-1);
-	body = write(STDOUT_FILENO, str, len);
-	if (body != len)
-		return (-1);
+	padding_size = 0;
+	if (flags->width > (int)content_length)
+		padding_size = flags->width - (int)content_length;
+	total_chars = (int)content_length + padding_size;
 	if (flags->minus)
-		right = ft_put_padding(pad, ' ');
-	if (right < 0)
-		return (-1);
-	return (left + body + right);
+	{
+		if (ft_write_all(content, content_length) < 0)
+			return (-1);
+		if (ft_apply_padding(' ', padding_size) < 0)
+			return (-1);
+	}
+	else
+	{
+		if (ft_apply_padding(' ', padding_size) < 0)
+			return (-1);
+		if (ft_write_all(content, content_length) < 0)
+			return (-1);
+	}
+	return (total_chars);
 }
 
-static const char	*ft_resolve_string(const char *str, t_flag *flags)
-{
-	int	null_len;
-
-	if (str)
-		return (str);
-	null_len = (int)ft_strlen(PF_NULL_STR);
-	if (flags->precision >= 0 && flags->precision < null_len)
-		return ("");
-	return (PF_NULL_STR);
-}
-
-int	ft_print_char(va_list *args, t_flag *flags)
+int	ft_print_char_bonus(va_list *args, t_flag *flags)
 {
 	char	c;
 
 	c = (char)va_arg(*args, int);
-	return (ft_put_field(&c, 1, flags));
+	return (ft_print_padded(&c, 1, flags));
 }
 
-int	ft_print_string(va_list *args, t_flag *flags)
+int	ft_print_string_bonus(va_list *args, t_flag *flags)
 {
 	const char	*str;
-	int			len;
+	size_t		len;
 
-	str = ft_resolve_string(va_arg(*args, const char *), flags);
-	len = (int)ft_strlen(str);
-	if (flags->precision >= 0 && flags->precision < len)
-		len = flags->precision;
-	return (ft_put_field(str, len, flags));
-}
-
-int	ft_print_percent(va_list *args, t_flag *flags)
-{
-	(void)args;
-	(void)flags;
-	if (write(STDOUT_FILENO, "%", 1) != 1)
-		return (-1);
-	return (1);
+	str = va_arg(*args, const char *);
+	if (!str)
+		str = PF_NULL_STR;
+	len = ft_strlen(str);
+	if (flags->precision >= 0 && (size_t)flags->precision < len)
+		len = (size_t)flags->precision;
+	return (ft_print_padded(str, len, flags));
 }
