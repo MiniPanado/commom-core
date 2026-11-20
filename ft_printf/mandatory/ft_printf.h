@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/13 20:11:15 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/18 10:19:49 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/20 08:49:09 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@
 # define BASE_HEX_LOWER	"0123456789abcdef"
 # define BASE_HEX_UPPER	"0123456789ABCDEF"
 
-typedef struct s_conversion
-{
-	char	type;
-	int		(*func)(va_list *args);
-}	t_conversion;
-
 /* ---- API required by the subject ---- */
 int		ft_printf(const char *format, ...);
 
@@ -40,8 +34,7 @@ int		ft_print_percent(va_list *args);
 
 int		ft_print_int(va_list *args);
 int		ft_print_uint(va_list *args);
-int		ft_print_hex_lower(va_list *args);
-int		ft_print_hex_upper(va_list *args);
+int		ft_print_hex(va_list *args, int is_upper);
 int		ft_print_pointer(va_list *args);
 
 /* --- Utils --- */

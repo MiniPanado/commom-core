@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/13 20:11:15 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/19 14:49:19 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/20 08:48:56 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,19 @@
 
 # define INTEGER_CONVERSIONS	"diuxX"
 
-typedef struct s_conversion
-{
-	char	type;
-	int		(*func)(va_list *args);
-}	t_conversion;
-
 /* ---- API required by the subject ---- */
 int		ft_printf(const char *format, ...);
 
 /* ---- Mandatory conversions: c s p d i u x X % ---- */
-int		ft_print_char(va_list *args);
-int		ft_print_string(va_list *args);
-int		ft_print_percent(va_list *args);
+int		ft_print_string_bonus(va_list *args, t_flag *flags);
+int		ft_print_string(va_list *args, t_flag *flags);
+int		ft_print_percent(va_list *args, t_flag *flags);
 
-int		ft_print_int(va_list *args);
-int		ft_print_uint(va_list *args);
-int		ft_print_hex_lower(va_list *args);
-int		ft_print_hex_upper(va_list *args);
-int		ft_print_pointer(va_list *args);
+int		ft_print_int(va_list *args, t_flag *flags);
+int		ft_print_uint(va_list *args, t_flag *flags);
+int		ft_print_hex_lower(va_list *args, t_flag *flags);
+int		ft_print_hex_upper(va_list *args, t_flag *flags);
+int		ft_print_pointer(va_list *args, t_flag *flags);
 
 /* --- Utils --- */
 void	ft_init_flags(t_flag *flags);

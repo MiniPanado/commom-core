@@ -6,12 +6,11 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 14:51:01 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/19 21:41:49 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/20 08:41:40 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
-#include <limits.h>
 
 static int	ft_write_all(const char *buffer, size_t length)
 {

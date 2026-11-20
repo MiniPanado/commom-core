@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 05:34:43 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/17 17:54:35 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/20 08:46:28 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@ int	ft_print_hex_lower(va_list *args)
 			BASE_HEX_LOWER));
 }
 
-int	ft_print_hex_upper(va_list *args)
+int	ft_print_hex(va_list *args, int is_upper)
 {
-	return ((int)ft_put_ulong_base(va_arg(*args, unsigned int),
-			BASE_HEX_UPPER));
+	const char	*base = BASE_HEX_LOWER;
+
+	if (is_upper)
+		base = BASE_HEX_UPPER;
+	return ((int)ft_put_ulong_base(va_arg(*args, unsigned int), base));
 }
 
 int	ft_print_pointer(va_list *args)

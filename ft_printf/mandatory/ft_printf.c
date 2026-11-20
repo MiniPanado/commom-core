@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 18:48:34 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/19 21:29:04 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/20 08:47:02 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static int	conversion(va_list *args, char c)
 	if (c == 'u')
 		return (ft_print_uint(args));
 	if (c == 'x')
-		return (ft_print_hex_lower(args));
+		return (ft_print_hex(args, 0));
 	if (c == 'X')
-		return (ft_print_hex_upper(args));
+		return (ft_print_hex(args, 1));
 	if (c == '%')
 		return (ft_print_percent(args));
 	return (-1);
