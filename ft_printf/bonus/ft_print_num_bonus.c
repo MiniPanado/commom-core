@@ -6,7 +6,7 @@
 /*   By: lucerque <lucerque@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 14:34:42 by lucerque          #+#    #+#             */
-/*   Updated: 2026/11/20 17:14:24 by lucerque         ###   ########.fr       */
+/*   Updated: 2026/11/20 20:09:16 by lucerque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************* */
 
@@ -14,14 +14,17 @@
 
 int	ft_print_int_bonus(va_list *args, t_flag *flags)
 {
-	int		num;
-	char	pad;
-	char	prefix;
+	long long	num;
+	char		pad;
+	char		prefix;
 
 	num = va_arg(*args, int);
 	prefix = '\0';
 	if (num < 0)
+	{
+		num = -num;
 		prefix = '-';
+	}
 	else if (flags->space)
 		prefix = ' ';
 	else if (flags->plus)
@@ -29,7 +32,6 @@ int	ft_print_int_bonus(va_list *args, t_flag *flags)
 	pad = ' ';
 	if (flags->zero)
 		pad = '0';
-	if (
 	return ();
 }
 
